@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FruitFlyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wing">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="FileDate" Type="datetime" Nullable="false" />
+          <Property Name="ImportDate" Type="datetime" Nullable="false" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Perimeter" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Area" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Length" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="WingCoordinate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="WingId" Type="int" Nullable="false" />
+          <Property Name="x" Type="int" Nullable="false" />
+          <Property Name="y" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WIngProject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Wing_WingProject">
+          <End Role="WIngProject" Type="Self.WIngProject" Multiplicity="1" />
+          <End Role="Wing" Type="Self.Wing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WIngProject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wing">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WingCoordinate_Wing">
+          <End Role="Wing" Type="Self.Wing" Multiplicity="1" />
+          <End Role="WingCoordinate" Type="Self.WingCoordinate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wing">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WingCoordinate">
+              <PropertyRef Name="WingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FruitFlyDBModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wing" EntityType="Self.Wing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WingCoordinate" EntityType="Self.WingCoordinate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WIngProject" EntityType="Self.WIngProject" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Wing_WingProject" Association="Self.FK_Wing_WingProject">
+            <End Role="WIngProject" EntitySet="WIngProject" />
+            <End Role="Wing" EntitySet="Wing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WingCoordinate_Wing" Association="Self.FK_WingCoordinate_Wing">
+            <End Role="Wing" EntitySet="Wing" />
+            <End Role="WingCoordinate" EntitySet="WingCoordinate" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FruitFlyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wing">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FileDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ImportDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Perimeter" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Area" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Length" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="WIngProject" Relationship="Self.FK_Wing_WingProject" FromRole="Wing" ToRole="WIngProject" />
+          <NavigationProperty Name="WingCoordinates" Relationship="Self.FK_WingCoordinate_Wing" FromRole="Wing" ToRole="WingCoordinate" />
+        </EntityType>
+        <EntityType Name="WingCoordinate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="WingId" Type="Int32" Nullable="false" />
+          <Property Name="x" Type="Int32" Nullable="false" />
+          <Property Name="y" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Wing" Relationship="Self.FK_WingCoordinate_Wing" FromRole="WingCoordinate" ToRole="Wing" />
+        </EntityType>
+        <EntityType Name="WIngProject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Wings" Relationship="Self.FK_Wing_WingProject" FromRole="WIngProject" ToRole="Wing" />
+        </EntityType>
+        <Association Name="FK_Wing_WingProject">
+          <End Role="WIngProject" Type="Self.WIngProject" Multiplicity="1" />
+          <End Role="Wing" Type="Self.Wing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WIngProject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wing">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WingCoordinate_Wing">
+          <End Role="Wing" Type="Self.Wing" Multiplicity="1" />
+          <End Role="WingCoordinate" Type="Self.WingCoordinate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wing">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WingCoordinate">
+              <PropertyRef Name="WingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FruitFlyDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="Wings" EntityType="Self.Wing" />
+          <EntitySet Name="WingCoordinates" EntityType="Self.WingCoordinate" />
+          <EntitySet Name="WIngProjects" EntityType="Self.WIngProject" />
+          <AssociationSet Name="FK_Wing_WingProject" Association="Self.FK_Wing_WingProject">
+            <End Role="WIngProject" EntitySet="WIngProjects" />
+            <End Role="Wing" EntitySet="Wings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WingCoordinate_Wing" Association="Self.FK_WingCoordinate_Wing">
+            <End Role="Wing" EntitySet="Wings" />
+            <End Role="WingCoordinate" EntitySet="WingCoordinates" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FruitFlyDBModelStoreContainer" CdmEntityContainer="FruitFlyDBEntities1">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="FruitFlyDBModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wings">
+            <EntityTypeMapping TypeName="FruitFlyDBModel.Wing">
+              <MappingFragment StoreEntitySet="Wing">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="FileDate" ColumnName="FileDate" />
+                <ScalarProperty Name="ImportDate" ColumnName="ImportDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Perimeter" ColumnName="Perimeter" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WingCoordinates">
+            <EntityTypeMapping TypeName="FruitFlyDBModel.WingCoordinate">
+              <MappingFragment StoreEntitySet="WingCoordinate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WingId" ColumnName="WingId" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WIngProjects">
+            <EntityTypeMapping TypeName="FruitFlyDBModel.WIngProject">
+              <MappingFragment StoreEntitySet="WIngProject">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
